@@ -11,16 +11,16 @@ endif
 
 export PYTHONPATH
 
-if BUILD_MICRO_LIBS
+if BUILD_ROMANCE_LIBS
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libbitcoinconsensus.pc
 endif
 
-MICROD_BIN=$(top_builddir)/src/$(MICRO_DAEMON_NAME)$(EXEEXT)
-MICRO_QT_BIN=$(top_builddir)/src/qt/$(MICRO_GUI_NAME)$(EXEEXT)
-MICRO_CLI_BIN=$(top_builddir)/src/$(MICRO_CLI_NAME)$(EXEEXT)
-MICRO_TX_BIN=$(top_builddir)/src/$(MICRO_TX_NAME)$(EXEEXT)
-MICRO_WIN_INSTALLER=$(PACKAGE)-$(PACKAGE_VERSION)-win$(WINDOWS_BITS)-setup$(EXEEXT)
+ROMANCED_BIN=$(top_builddir)/src/$(ROMANCE_DAEMON_NAME)$(EXEEXT)
+ROMANCE_QT_BIN=$(top_builddir)/src/qt/$(ROMANCE_GUI_NAME)$(EXEEXT)
+ROMANCE_CLI_BIN=$(top_builddir)/src/$(ROMANCE_CLI_NAME)$(EXEEXT)
+ROMANCE_TX_BIN=$(top_builddir)/src/$(ROMANCE_TX_NAME)$(EXEEXT)
+ROMANCE_WIN_INSTALLER=$(PACKAGE)-$(PACKAGE_VERSION)-win$(WINDOWS_BITS)-setup$(EXEEXT)
 
 empty :=
 space := $(empty) $(empty)
@@ -70,12 +70,12 @@ COVERAGE_INFO = baseline.info \
 dist-hook:
 	-$(GIT) archive --format=tar HEAD -- src/clientversion.cpp | $(AMTAR) -C $(top_distdir) -xf -
 
-$(MICRO_WIN_INSTALLER): all-recursive
+$(ROMANCE_WIN_INSTALLER): all-recursive
 	$(MKDIR_P) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(MICROD_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(MICRO_QT_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(MICRO_CLI_BIN) $(top_builddir)/release
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(MICRO_TX_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(ROMANCED_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(ROMANCE_QT_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(ROMANCE_CLI_BIN) $(top_builddir)/release
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM) $(ROMANCE_TX_BIN) $(top_builddir)/release
 	@test -f $(MAKENSIS) && $(MAKENSIS) -V2 $(top_builddir)/share/setup.nsi || \
 	  echo error: could not build $@
 	@echo built $@
@@ -98,7 +98,7 @@ $(OSX_APP)/Contents/Resources/romance.icns: $(OSX_INSTALLER_ICONS)
 
 $(OSX_APP)/Contents/MacOS/Romance-Qt: all-recursive
 	$(MKDIR_P) $(@D)
-	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM)  $(MICRO_QT_BIN) $@
+	STRIPPROG="$(STRIP)" $(INSTALL_STRIP_PROGRAM)  $(ROMANCE_QT_BIN) $@
 
 $(OSX_APP)/Contents/Resources/Base.lproj/InfoPlist.strings:
 	$(MKDIR_P) $(@D)
@@ -157,19 +157,19 @@ appbundle: $(OSX_APP_BUILT)
 deploy: $(OSX_DMG)
 endif
 if TARGET_WINDOWS
-deploy: $(MICRO_WIN_INSTALLER)
+deploy: $(ROMANCE_WIN_INSTALLER)
 endif
 
-$(MICRO_QT_BIN): FORCE
+$(ROMANCE_QT_BIN): FORCE
 	$(MAKE) -C src qt/$(@F)
 
-$(MICROD_BIN): FORCE
+$(ROMANCED_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
-$(MICRO_CLI_BIN): FORCE
+$(ROMANCE_CLI_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
-$(MICRO_TX_BIN): FORCE
+$(ROMANCE_TX_BIN): FORCE
 	$(MAKE) -C src $(@F)
 
 if USE_LCOV
@@ -276,7 +276,7 @@ EXTRA_DIST += \
     test/util/data/txcreatesignv2.hex \
     test/util/rpcauth-test.py
 
-CLEANFILES = $(OSX_DMG) $(MICRO_WIN_INSTALLER)
+CLEANFILES = $(OSX_DMG) $(ROMANCE_WIN_INSTALLER)
 
 .INTERMEDIATE: $(COVERAGE_INFO)
 
