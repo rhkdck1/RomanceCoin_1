@@ -724,10 +724,10 @@ void CNode::copyStats(CNodeStats &stats)
     // the caller can immediately detect that this is happening.
     int64_t nPingUsecWait = 0;
     if ((0 != nPingNonceSent) && (0 != nPingUsecStart)) {
-        nPingUsecWait = GetTimeRomances() - nPingUsecStart;
+        nPingUsecWait = GetTimeMicros() - nPingUsecStart;
     }
 
-    // Raw ping time is in romanceseconds, but show it to user as whole seconds (Bitcoin users should be well used to small numbers with many decimal places by now :)
+    // Raw ping time is in microseconds, but show it to user as whole seconds (Bitcoin users should be well used to small numbers with many decimal places by now :)
     stats.dPingTime = (((double)nPingUsecTime) / 1e6);
     stats.dMinPing  = (((double)nMinPingUsecTime) / 1e6);
     stats.dPingWait = (((double)nPingUsecWait) / 1e6);
@@ -741,9 +741,9 @@ void CNode::copyStats(CNodeStats &stats)
 bool CNode::ReceiveMsgBytes(const char *pch, unsigned int nBytes, bool& complete)
 {
     complete = false;
-    int64_t nTimeRomances = GetTimeRomances();
+    int64_t nTimeMicros = GetTimeMicros();
     LOCK(cs_vRecv);
-    nLastRecv = nTimeRomances / 1000000;
+    nLastRecv = nTimeMicros / 1000000;
     nRecvBytes += nBytes;
     while (nBytes > 0) {
 
@@ -782,7 +782,7 @@ bool CNode::ReceiveMsgBytes(const char *pch, unsigned int nBytes, bool& complete
             assert(i != mapRecvBytesPerMsgCmd.end());
             i->second += msg.hdr.nMessageSize + CMessageHeader::HEADER_SIZE;
 
-            msg.nTime = nTimeRomances;
+            msg.nTime = nTimeMicros;
             complete = true;
         }
     }
@@ -1439,9 +1439,9 @@ void CConnman::ThreadSocketHandler()
                     LogPrintf("socket receive timeout: %is\n", nTime - pnode->nLastRecv);
                     pnode->fDisconnect = true;
                 }
-                else if (pnode->nPingNonceSent && pnode->nPingUsecStart + TIMEOUT_INTERVAL * 1000000 < GetTimeRomances())
+                else if (pnode->nPingNonceSent && pnode->nPingUsecStart + TIMEOUT_INTERVAL * 1000000 < GetTimeMicros())
                 {
-                    LogPrintf("ping timeout: %fs\n", 0.000001 * (GetTimeRomances() - pnode->nPingUsecStart));
+                    LogPrintf("ping timeout: %fs\n", 0.000001 * (GetTimeMicros() - pnode->nPingUsecStart));
                     pnode->fDisconnect = true;
                 }
                 else if (!pnode->fSuccessfullyConnected)
@@ -1767,7 +1767,7 @@ void CConnman::ThreadOpenConnections(const std::vector<std::string> connect)
     // Initiate network connections
     int64_t nStart = GetTime();
 
-    // Minimum time before next feeler connection (in romanceseconds).
+    // Minimum time before next feeler connection (in microseconds).
     int64_t nNextFeeler = PoissonNextSend(nStart*1000*1000, FEELER_INTERVAL);
     while (!interruptNet)
     {
@@ -1830,7 +1830,7 @@ void CConnman::ThreadOpenConnections(const std::vector<std::string> connect)
         bool fFeeler = false;
 
         if (nOutbound >= nMaxOutbound && !GetTryNewOutboundPeer()) {
-            int64_t nTime = GetTimeRomances(); // The current time right now (in romanceseconds).
+            int64_t nTime = GetTimeMicros(); // The current time right now (in microseconds).
             if (nTime > nNextFeeler) {
                 nNextFeeler = PoissonNextSend(nTime, FEELER_INTERVAL);
                 fFeeler = true;
@@ -2796,7 +2796,7 @@ void CNode::AskFor(const CInv& inv)
     LogPrint(BCLog::NET, "askfor %s  %d (%s) peer=%d\n", inv.ToString(), nRequestTime, FormatISO8601Time(nRequestTime/1000000), id);
 
     // Make sure not to reuse time indexes to keep things in the same order
-    int64_t nNow = GetTimeRomances() - 1000000;
+    int64_t nNow = GetTimeMicros() - 1000000;
     static int64_t nLastTime;
     ++nLastTime;
     nNow = std::max(nNow, nLastTime);

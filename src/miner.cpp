@@ -101,7 +101,7 @@ void BlockAssembler::resetBlock()
 
 std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& scriptPubKeyIn, bool fMineWitnessTx)
 {
-    int64_t nTimeStart = GetTimeRomances();
+    int64_t nTimeStart = GetTimeMicros();
 
     resetBlock();
 

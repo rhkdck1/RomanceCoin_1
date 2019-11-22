@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-static const bool DEFAULT_LOGTIMEROMANCES = false;
+static const bool DEFAULT_LOGTIMEMICROS = false;
 static const bool DEFAULT_LOGIPS        = false;
 static const bool DEFAULT_LOGTIMESTAMPS = true;
 extern const char * const DEFAULT_DEBUGLOGFILE;
@@ -80,7 +80,7 @@ namespace BCLog {
         bool m_print_to_file = false;
 
         bool m_log_timestamps = DEFAULT_LOGTIMESTAMPS;
-        bool m_log_time_romances = DEFAULT_LOGTIMEROMANCES;
+        bool m_log_time_micros = DEFAULT_LOGTIMEROMANCES;
 
         fs::path m_file_path;
         std::atomic<bool> m_reopen_file{false};
