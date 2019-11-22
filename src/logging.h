@@ -80,7 +80,7 @@ namespace BCLog {
         bool m_print_to_file = false;
 
         bool m_log_timestamps = DEFAULT_LOGTIMESTAMPS;
-        bool m_log_time_micros = DEFAULT_LOGTIMEROMANCES;
+        bool m_log_time_micros = DEFAULT_LOGTIMEMICROS;
 
         fs::path m_file_path;
         std::atomic<bool> m_reopen_file{false};
