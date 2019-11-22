@@ -583,7 +583,7 @@ public:
     CDataStream vRecv;              // received message data
     unsigned int nDataPos;
 
-    int64_t nTime;                  // time (in romanceseconds) of message receipt.
+    int64_t nTime;                  // time (in microseconds) of message receipt.
 
     CNetMessage(const CMessageHeader::MessageStartChars& pchMessageStartIn, int nTypeIn, int nVersionIn) : hdrbuf(nTypeIn, nVersionIn), hdr(pchMessageStartIn), vRecv(nTypeIn, nVersionIn) {
         hdrbuf.resize(24);
@@ -873,7 +873,7 @@ public:
 
 
 
-/** Return a timestamp in the future (in romanceseconds) for exponentially distributed events. */
+/** Return a timestamp in the future (in microseconds) for exponentially distributed events. */
 int64_t PoissonNextSend(int64_t now, int average_interval_seconds);
 
 #endif // ROMANCE_NET_H

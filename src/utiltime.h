@@ -10,7 +10,7 @@
 #include <string>
 
 /**
- * GetTimeRomances() and GetTimeMillis() both return the system time, but in
+ * GetTimeMicros() and GetTimeMillis() both return the system time, but in
  * different units. GetTime() returns the system time in seconds, but also
  * supports mocktime, where the time can be specified by the user, eg for
  * testing (eg with the setmocktime rpc, or -mocktime argument).
@@ -21,7 +21,7 @@
 
 int64_t GetTime();
 int64_t GetTimeMillis();
-int64_t GetTimeRomances();
+int64_t GetTimeMicros();
 int64_t GetSystemTimeInSeconds(); // Like GetTime(), but not mockable
 void SetMockTime(int64_t nMockTimeIn);
 int64_t GetMockTime();

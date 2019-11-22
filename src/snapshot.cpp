@@ -10,7 +10,7 @@
 #include <random>
 
 std::string TimestampStr() {
-    return FormatISO8601DateTime(GetTimeRomances() / 1000000) + " ";
+    return FormatISO8601DateTime(GetTimeMicros() / 1000000) + " ";
 }
 
 CScript ReadScriptSnapshot(const std::string& s) {
