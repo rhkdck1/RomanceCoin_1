@@ -158,13 +158,13 @@ public:
         genesis = CreateGenesisBlock(1574659287, 709, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
-        consensus.hashGenesisBlockWork = genesis.GetWorkHash();
+        consenfsus.hashGenesisBlockWork = genesis.GetWorkHash();
 
         GenesisGenerator(genesis);
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0xb795d2733d3faa931636287a2613fc0c46eacc6c48074f15663139f5c7fcc429"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x0001b7f0a213420af8320314bc563dd6b01f8f0f6242d75fa8df2d0f0a47fdc7"));
-        assert(genesis.hashMerkleRoot == uint256S("0x3426ccad3017e14a4ab6efddaa44cb31beca67a86c82f63de18705f1b6de88df"));
+        assert(consensus.hashGenesisBlock == uint256S("0x08e4dc89c20b4d5491f94d876ab792e09a5eaba85f4d2440b34fe252f4852ceb"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x002f68d77ff31f38485658f9303307d22005a153bb4669c6f28e311c98124f91"));
+        assert(genesis.hashMerkleRoot == uint256S("0x5293440f56ff872c1ba25f86e5a4fd517476b5d3406539b11868539b0cf8438a"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
