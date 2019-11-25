@@ -83,7 +83,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, const char* pszTimestamp, std::vector<SnapshotEntry> vSnapshot)
 {
-    const CScript genesisOutputScript = CScript() << ParseHex("04cb16c90fdcd962e9b78b2b09c78b76b67ea205cb93efa8772c2df2ab265cbc1b3bb4e6b16f77378b768d293de62e6d14a4b348c679060fa43a44bfa78a2f4411") << OP_CHECKSIG;
+    //const CScript genesisOutputScript = CScript() << ParseHex("0402cf9b6f0ff5ff6ce705a0c7ed563b9d4803f4a6ad74c8f02892ad1d41aae44c03513b19d359d647e293fcf621e30f373c707a1794b1239f70938f661656d59b") << OP_CHECKSIG;
+    const CScript genesisOutputScript = CScript() << ParseHex("0453b06d563e89357f0ee60a85d78e842adccd5b47b8fd9f9e77e6a946547f38e2135e5c97fe7b4ae220ddf4b6c54a84158f268cff809503f378c0dce6f0f84791") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward, vSnapshot);
 }
 
