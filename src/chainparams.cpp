@@ -160,9 +160,9 @@ public:
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0x"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0xf1a778021a0be92673b621c0b838cc368f91afdee7ac23d425aa180d9f1fa281"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x"));
-        assert(genesis.hashMerkleRoot == uint256S("0x"));
+        assert(genesis.hashMerkleRoot == uint256S("0x0xfe59f243fc84e671fc97e69ff8e9e83d76434ee9e8ecf3af52bf7e80b8ef5428"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
