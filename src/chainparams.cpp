@@ -154,14 +154,15 @@ public:
         };
 
         vSnapshot = InitSnapshot("mainnet.csv", providers);
-        genesis = CreateGenesisBlock(1570625829, 709, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
+        genesis = CreateGenesisBlock(1574659287, 709, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
-        assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x001cb6047ddf13074c4bce354ed3cf0cdd96a4287aa562b032eb81d03e183da8"));
-        assert(genesis.hashMerkleRoot == uint256S("0x3426ccad3017e14a4ab6efddaa44cb31beca67a86c82f63de18705f1b6de88df"));
+        //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
+        assert(consensus.hashGenesisBlock == uint256S("0x"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x"));
+        assert(genesis.hashMerkleRoot == uint256S("0x"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
