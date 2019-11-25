@@ -161,7 +161,7 @@ public:
 
         GenesisGenerator(genesis);
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0x"));
+        assert(consensus.hashGenesisBlock == uint256S("0xb795d2733d3faa931636287a2613fc0c46eacc6c48074f15663139f5c7fcc429"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x0001b7f0a213420af8320314bc563dd6b01f8f0f6242d75fa8df2d0f0a47fdc7"));
         assert(genesis.hashMerkleRoot == uint256S("0x3426ccad3017e14a4ab6efddaa44cb31beca67a86c82f63de18705f1b6de88df"));
 
