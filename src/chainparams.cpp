@@ -159,6 +159,7 @@ public:
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
+        GenesisGenerator(genesis);
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
         assert(consensus.hashGenesisBlock == uint256S("0x0xf1a778021a0be92673b621c0b838cc368f91afdee7ac23d425aa180d9f1fa281"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x"));
