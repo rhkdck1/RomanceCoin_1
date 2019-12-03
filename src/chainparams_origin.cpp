@@ -49,22 +49,22 @@ void GenesisGenerator(CBlock genesis) {
     printf("block.MerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str());
 }
 
-static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
+static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, std::vector<SnapshotEntry> vSnapshot)
 {
     CMutableTransaction txNew;
     txNew.nVersion = 1;
     txNew.vin.resize(1);
-    txNew.vout.resize(1);
+    txNew.vout.resize(vSnapshot.size() + 1);
     txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
     txNew.vout[0].nValue = genesisReward;
     txNew.vout[0].scriptPubKey = genesisOutputScript;
 
-    // int i = 1;
-    // for (auto const& tx: vSnapshot) {
-    //     txNew.vout[i].nValue = tx.amount;
-    //     txNew.vout[i].scriptPubKey = tx.script;
-    //     i++;
-    // }
+    int i = 1;
+    for (auto const& tx: vSnapshot) {
+        txNew.vout[i].nValue = tx.amount;
+        txNew.vout[i].scriptPubKey = tx.script;
+        i++;
+    }
 
     CBlock genesis;
     genesis.nTime    = nTime;
@@ -81,11 +81,10 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 /**
  * Build the genesis block. It includes snapshot coins from vSnapshot
  */
-static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, const char* pszTimestamp)
+static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, const char* pszTimestamp, std::vector<SnapshotEntry> vSnapshot)
 {
-    //const CScript genesisOutputScript = CScript() << ParseHex("0402cf9b6f0ff5ff6ce705a0c7ed563b9d4803f4a6ad74c8f02892ad1d41aae44c03513b19d359d647e293fcf621e30f373c707a1794b1239f70938f661656d59b") << OP_CHECKSIG;
-    const CScript genesisOutputScript = CScript() << ParseHex("0453b06d563e89357f0ee60a85d78e842adccd5b47b8fd9f9e77e6a946547f38e2135e5c97fe7b4ae220ddf4b6c54a84158f268cff809503f378c0dce6f0f84791") << OP_CHECKSIG;
-    return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
+    const CScript genesisOutputScript = CScript() << ParseHex("04cb16c90fdcd962e9b78b2b09c78b76b67ea205cb93efa8772c2df2ab265cbc1b3bb4e6b16f77378b768d293de62e6d14a4b348c679060fa43a44bfa78a2f4411") << OP_CHECKSIG;
+    return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward, vSnapshot);
 }
 
 void CChainParams::UpdateVersionBitsParameters(Consensus::DeploymentPos d, int64_t nStartTime, int64_t nTimeout)
@@ -114,15 +113,15 @@ public:
         consensus.nBIP66Enabled = true;
         consensus.nSegwitEnabled = true;
         consensus.nCSVEnabled = true;
-        consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S("003fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetSpacing = 1 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
         consensus.nMinerConfirmationWindow = 2016;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1574238309; // January 1, 2008
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1574238348; // December 31, 2008
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x00");
@@ -154,22 +153,15 @@ public:
             {"sman.pw", "/snapshot/mainnet.csv", 80}
         };
 
-        //vSnapshot = InitSnapshot("mainnet.csv", providers);
-        genesis = CreateGenesisBlock(1574659287, 709, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
+        vSnapshot = InitSnapshot("mainnet.csv", providers);
+        genesis = CreateGenesisBlock(1570625829, 709, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
 
-        
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
-        GenesisGenerator(genesis);
-
-        printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
-        printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
-        printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0xa592f7e9b12c9c6034f9e473d2e27b6c73c578306e37f81700e72cc73532379e"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x78cc686a7f13fa063ed525e840b503f74a7cb8081d0f3783f41ce238055ef4af"));
-        assert(genesis.hashMerkleRoot == uint256S("0x5293440f56ff872c1ba25f86e5a4fd517476b5d3406539b11868539b0cf8438a"));
+        assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x001cb6047ddf13074c4bce354ed3cf0cdd96a4287aa562b032eb81d03e183da8"));
+        assert(genesis.hashMerkleRoot == uint256S("0x3426ccad3017e14a4ab6efddaa44cb31beca67a86c82f63de18705f1b6de88df"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
@@ -237,10 +229,10 @@ public:
         consensus.rewardEpoch = 525960 * 2; 
         consensus.rewardEpochRate = 0.3;
 
-        pchMessageStart[0] = 0xf1;
-        pchMessageStart[1] = 0xc2;
-        pchMessageStart[2] = 0xb6;
-        pchMessageStart[3] = 0xd2;
+        pchMessageStart[0] = 0x74;
+        pchMessageStart[1] = 0x6d;
+        pchMessageStart[2] = 0x62;
+        pchMessageStart[3] = 0x63;
         nDefaultPort = 12502;
         nPruneAfterHeight = 1000;
 
@@ -250,18 +242,14 @@ public:
         };
 
         vSnapshot = InitSnapshot("testnet.csv", providers);
-        genesis = CreateGenesisBlock(1574659287, 135893, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
+        genesis = CreateGenesisBlock(1568015489, 135893, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
-        printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
-        printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
-        printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
-
-        assert(consensus.hashGenesisBlock == uint256S("0x9b751493ca843a182ee173ac425f6825d402624eac9637f5b2309029cb3be62c"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0xa9907a67ecd2f16a4b2b79808e512099aa7a9f29e68313caa64175e049738550"));
-        assert(genesis.hashMerkleRoot == uint256S("0xe4a96722accafc494c78667ca0dd92866ea97498284e4627429bbc870b3d208d"));
+        assert(consensus.hashGenesisBlock == uint256S("0xf6968578ea5b34f3fcbdb55cdf75e4a7bd1534dd8dc65de09a250d808686f05f"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x002089a79759f268e63e8ffc3f90c601004b442e5191a0cf2874d1985aee6b0a"));
+        assert(genesis.hashMerkleRoot == uint256S("0x0fb9c5ab92544b3e5b3af90567a75dec488dc89087c70ead7b6eabedc032d8b0"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
