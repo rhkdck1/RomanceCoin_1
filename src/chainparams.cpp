@@ -158,7 +158,7 @@ public:
         genesis = CreateGenesisBlock(1574659287, 709, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
-        consenfsus.hashGenesisBlockWork = genesis.GetWorkHash();
+        consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
         GenesisGenerator(genesis);
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
