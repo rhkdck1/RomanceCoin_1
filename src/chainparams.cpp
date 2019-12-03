@@ -237,10 +237,10 @@ public:
         consensus.rewardEpoch = 525960 * 2; 
         consensus.rewardEpochRate = 0.3;
 
-        pchMessageStart[0] = 0x74;
-        pchMessageStart[1] = 0x6d;
-        pchMessageStart[2] = 0x62;
-        pchMessageStart[3] = 0x63;
+        pchMessageStart[0] = 0xf1;
+        pchMessageStart[1] = 0xc2;
+        pchMessageStart[2] = 0xb6;
+        pchMessageStart[3] = 0xd2;
         nDefaultPort = 12502;
         nPruneAfterHeight = 1000;
 
@@ -250,10 +250,14 @@ public:
         };
 
         vSnapshot = InitSnapshot("testnet.csv", providers);
-        genesis = CreateGenesisBlock(1568015489, 135893, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
+        genesis = CreateGenesisBlock(1574659287, 135893, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
+
+        printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
+        printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
         assert(consensus.hashGenesisBlock == uint256S("0xb795d2733d3faa931636287a2613fc0c46eacc6c48074f15663139f5c7fcc429"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x002089a79759f268e63e8ffc3f90c601004b442e5191a0cf2874d1985aee6b0a"));
