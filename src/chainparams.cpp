@@ -249,8 +249,8 @@ public:
             {"sman.pw", "/snapshot/testnet.csv", 80}
         };
 
-        vSnapshot = InitSnapshot("testnet.csv", providers);
-        genesis = CreateGenesisBlock(1574659287, 135893, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
+        //vSnapshot = InitSnapshot("testnet.csv", providers);
+        genesis = CreateGenesisBlock(1574659287, 135893, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
@@ -345,8 +345,8 @@ public:
             {"sman.pw", "/snapshot/regtest.csv", 80}
         };
 
-        vSnapshot = InitSnapshot("regtest.csv", providers);
-        genesis = CreateGenesisBlock(1296688602, 11, 0x207fffff, 1, 900 * COIN, pszTimestamp, vSnapshot);
+        //vSnapshot = InitSnapshot("regtest.csv", providers);
+        genesis = CreateGenesisBlock(1296688602, 11, 0x207fffff, 1, 900 * COIN, pszTimestamp);
         
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
