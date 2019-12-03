@@ -164,6 +164,8 @@ public:
         GenesisGenerator(genesis);
 
         printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
+        printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
         assert(consensus.hashGenesisBlock == uint256S("0xa592f7e9b12c9c6034f9e473d2e27b6c73c578306e37f81700e72cc73532379e"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x002f68d77ff31f38485658f9303307d22005a153bb4669c6f28e311c98124f91"));
