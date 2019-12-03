@@ -157,10 +157,13 @@ public:
         vSnapshot = InitSnapshot("mainnet.csv", providers);
         genesis = CreateGenesisBlock(1574659287, 709, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
 
+        
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
         GenesisGenerator(genesis);
+
+        printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str())
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
         assert(consensus.hashGenesisBlock == uint256S("0x08e4dc89c20b4d5491f94d876ab792e09a5eaba85f4d2440b34fe252f4852ceb"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x002f68d77ff31f38485658f9303307d22005a153bb4669c6f28e311c98124f91"));
