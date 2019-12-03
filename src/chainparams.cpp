@@ -168,7 +168,7 @@ public:
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
         assert(consensus.hashGenesisBlock == uint256S("0xa592f7e9b12c9c6034f9e473d2e27b6c73c578306e37f81700e72cc73532379e"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x002f68d77ff31f38485658f9303307d22005a153bb4669c6f28e311c98124f91"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x78cc686a7f13fa063ed525e840b503f74a7cb8081d0f3783f41ce238055ef4af"));
         assert(genesis.hashMerkleRoot == uint256S("0x5293440f56ff872c1ba25f86e5a4fd517476b5d3406539b11868539b0cf8438a"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
