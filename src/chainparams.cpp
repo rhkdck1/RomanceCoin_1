@@ -161,7 +161,7 @@ public:
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
-        GenesisGenerator(genesis);
+        //GenesisGenerator(genesis);
 
         printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
