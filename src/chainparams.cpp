@@ -259,9 +259,9 @@ public:
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(consensus.hashGenesisBlock == uint256S("0xb795d2733d3faa931636287a2613fc0c46eacc6c48074f15663139f5c7fcc429"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x002089a79759f268e63e8ffc3f90c601004b442e5191a0cf2874d1985aee6b0a"));
-        assert(genesis.hashMerkleRoot == uint256S("0x0fb9c5ab92544b3e5b3af90567a75dec488dc89087c70ead7b6eabedc032d8b0"));
+        assert(consensus.hashGenesisBlock == uint256S("0x9b751493ca843a182ee173ac425f6825d402624eac9637f5b2309029cb3be62c"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0xa9907a67ecd2f16a4b2b79808e512099aa7a9f29e68313caa64175e049738550"));
+        assert(genesis.hashMerkleRoot == uint256S("0xe4a96722accafc494c78667ca0dd92866ea97498284e4627429bbc870b3d208d"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
