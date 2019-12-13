@@ -156,14 +156,16 @@ public:
         // };
 
         //vSnapshot = InitSnapshot("mainnet.csv", providers);
-        //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
-        genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp);
+        genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
+        //genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp);
 
         
+        printf("block.nNonce = %u \n", genesis.nNonce);
+        printf("genesis.GetIndexHash() = %s \n", genesis.GetIndexHash().ToString().c_str());
+        printf("genesis.GetWorkHash() = %s\n", genesis.GetWorkHash().ToString().c_str());
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
-
-        //GenesisGenerator(genesis);
+        GenesisGenerator(genesis);
 
         printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
