@@ -254,7 +254,7 @@ public:
         };
 
         //vSnapshot = InitSnapshot("testnet.csv", providers);
-        genesis = CreateGenesisBlock(1574659287, 135893, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
+        genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
@@ -263,9 +263,9 @@ public:
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(consensus.hashGenesisBlock == uint256S("0x9b751493ca843a182ee173ac425f6825d402624eac9637f5b2309029cb3be62c"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0xa9907a67ecd2f16a4b2b79808e512099aa7a9f29e68313caa64175e049738550"));
-        assert(genesis.hashMerkleRoot == uint256S("0xe4a96722accafc494c78667ca0dd92866ea97498284e4627429bbc870b3d208d"));
+         assert(consensus.hashGenesisBlock == uint256S("0x1dc98d6e88d7ea29988358268e7082538448ef56d6f81fec33d673434d84274b"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0xe692f7aa707e34103f614a79a4b0868ec1a001f65491cbdc85437dbeb70bd268"));
+        assert(genesis.hashMerkleRoot == uint256S("0x74fbc0b2c63e00eea40caedfee9601a6da8f7d850150ae92e2efb8d20707ce14"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
