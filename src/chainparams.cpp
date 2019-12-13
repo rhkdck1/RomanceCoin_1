@@ -55,7 +55,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
     txNew.nVersion = 1;
     txNew.vin.resize(1);
     txNew.vout.resize(1);
-    txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
+    txNew.vin[0].scriptSig = CScript() << 545259519 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
     txNew.vout[0].nValue = genesisReward;
     txNew.vout[0].scriptPubKey = genesisOutputScript;
 
@@ -84,7 +84,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, const char* pszTimestamp)
 {
     //const CScript genesisOutputScript = CScript() << ParseHex("0402cf9b6f0ff5ff6ce705a0c7ed563b9d4803f4a6ad74c8f02892ad1d41aae44c03513b19d359d647e293fcf621e30f373c707a1794b1239f70938f661656d59b") << OP_CHECKSIG;
-    const CScript genesisOutputScript = CScript() << ParseHex("0453b06d563e89357f0ee60a85d78e842adccd5b47b8fd9f9e77e6a946547f38e2135e5c97fe7b4ae220ddf4b6c54a84158f268cff809503f378c0dce6f0f84791") << OP_CHECKSIG;
+    const CScript genesisOutputScript = CScript() << ParseHex("049f1746296969e625927455067f1a91824daccfd91ee59f0d13e8158a335a423bdbeafcfd4e3304cd7c7bf8326ba5d7158498bc4be0c5fdf466699ea543e8475c") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
@@ -149,13 +149,15 @@ public:
         nDefaultPort = 2502;
         nPruneAfterHeight = 100000;
 
-        const char* pszTimestamp = "The WSJ 09/Oct/2019 Nobel Prize in Chemistry Awarded to Developers of Lithium-Ion Batteries";
-        std::vector<SnapshotProvider> providers = {
-            {"sman.pw", "/snapshot/mainnet.csv", 80}
-        };
+        //const char* pszTimestamp = "The WSJ 09/Oct/2019 Nobel Prize in Chemistry Awarded to Developers of Lithium-Ion Batteries";
+        const char* pszTimestamp = "12-13-19 LinkedIn: 'Blockchain developer' is this fastest-growing U.S. job";
+        // std::vector<SnapshotProvider> providers = {
+        //     {"sman.pw", "/snapshot/mainnet.csv", 80}
+        // };
 
         //vSnapshot = InitSnapshot("mainnet.csv", providers);
-        genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
+        //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
+        genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp);
 
         
         consensus.hashGenesisBlock = genesis.GetIndexHash();
@@ -167,9 +169,9 @@ public:
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0x00000000946862666b97057929411f48c3808c68ec6bfee00904e4dd74397c8f"));
+        assert(consensus.hashGenesisBlock == uint256S("0x4543cfa4c7d2dcb3752eeffba8ca694007747f8768e10f4fabed1404be6abd1c"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x78cc686a7f13fa063ed525e840b503f74a7cb8081d0f3783f41ce238055ef4af"));
-        assert(genesis.hashMerkleRoot == uint256S("0x15fe17e0f9806bb5fe4ed5d82d10f2604384aea7bf1b50753e04c7906cfad54b"));
+        assert(genesis.hashMerkleRoot == uint256S("0x6e5d490fbbbb46ac935e60ddaef2a785abc531de958b76d8326162e89273762d"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
