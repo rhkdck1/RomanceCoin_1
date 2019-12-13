@@ -248,7 +248,7 @@ public:
         nDefaultPort = 12502;
         nPruneAfterHeight = 1000;
 
-        const char* pszTimestamp = "The WSJ 05/Oct/2019 Hong Kong Shuts Down After Night of Violence";
+        const char* pszTimestamp = "12-13-19 LinkedIn: 'Blockchain developer' is this fastest-growing U.S. job";
         std::vector<SnapshotProvider> providers = {
             {"sman.pw", "/snapshot/testnet.csv", 80}
         };
@@ -259,9 +259,9 @@ public:
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
-        printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
-        printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
-        printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        printf("test consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        printf("test consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
+        printf("test genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
          assert(consensus.hashGenesisBlock == uint256S("0x1dc98d6e88d7ea29988358268e7082538448ef56d6f81fec33d673434d84274b"));
         assert(consensus.hashGenesisBlockWork == uint256S("0xe692f7aa707e34103f614a79a4b0868ec1a001f65491cbdc85437dbeb70bd268"));
