@@ -49,22 +49,22 @@ void GenesisGenerator(CBlock genesis) {
     printf("block.MerkleRoot = %s \n", genesis.hashMerkleRoot.ToString().c_str());
 }
 
-static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, std::vector<SnapshotEntry> vSnapshot)
+static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     CMutableTransaction txNew;
     txNew.nVersion = 1;
     txNew.vin.resize(1);
-    txNew.vout.resize(vSnapshot.size() + 1);
-    txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
+    txNew.vout.resize(1);
+    txNew.vin[0].scriptSig = CScript() << 545259519 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
     txNew.vout[0].nValue = genesisReward;
     txNew.vout[0].scriptPubKey = genesisOutputScript;
 
-    int i = 1;
-    for (auto const& tx: vSnapshot) {
-        txNew.vout[i].nValue = tx.amount;
-        txNew.vout[i].scriptPubKey = tx.script;
-        i++;
-    }
+    // int i = 1;
+    // for (auto const& tx: vSnapshot) {
+    //     txNew.vout[i].nValue = tx.amount;
+    //     txNew.vout[i].scriptPubKey = tx.script;
+    //     i++;
+    // }
 
     CBlock genesis;
     genesis.nTime    = nTime;
@@ -81,10 +81,11 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 /**
  * Build the genesis block. It includes snapshot coins from vSnapshot
  */
-static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, const char* pszTimestamp, std::vector<SnapshotEntry> vSnapshot)
+static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward, const char* pszTimestamp)
 {
-    const CScript genesisOutputScript = CScript() << ParseHex("04cb16c90fdcd962e9b78b2b09c78b76b67ea205cb93efa8772c2df2ab265cbc1b3bb4e6b16f77378b768d293de62e6d14a4b348c679060fa43a44bfa78a2f4411") << OP_CHECKSIG;
-    return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward, vSnapshot);
+    //const CScript genesisOutputScript = CScript() << ParseHex("0402cf9b6f0ff5ff6ce705a0c7ed563b9d4803f4a6ad74c8f02892ad1d41aae44c03513b19d359d647e293fcf621e30f373c707a1794b1239f70938f661656d59b") << OP_CHECKSIG;
+    const CScript genesisOutputScript = CScript() << ParseHex("049f1746296969e625927455067f1a91824daccfd91ee59f0d13e8158a335a423bdbeafcfd4e3304cd7c7bf8326ba5d7158498bc4be0c5fdf466699ea543e8475c") << OP_CHECKSIG;
+    return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
 void CChainParams::UpdateVersionBitsParameters(Consensus::DeploymentPos d, int64_t nStartTime, int64_t nTimeout)
@@ -113,7 +114,7 @@ public:
         consensus.nBIP66Enabled = true;
         consensus.nSegwitEnabled = true;
         consensus.nCSVEnabled = true;
-        consensus.powLimit = uint256S("003fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetSpacing = 1 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
@@ -124,7 +125,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00");
+        //consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.nMinimumChainWork = consensus.powLimit;
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
@@ -148,28 +150,40 @@ public:
         nDefaultPort = 2502;
         nPruneAfterHeight = 100000;
 
-        const char* pszTimestamp = "The WSJ 09/Oct/2019 Nobel Prize in Chemistry Awarded to Developers of Lithium-Ion Batteries";
-        std::vector<SnapshotProvider> providers = {
-            {"sman.pw", "/snapshot/mainnet.csv", 80}
-        };
+        //const char* pszTimestamp = "The WSJ 09/Oct/2019 Nobel Prize in Chemistry Awarded to Developers of Lithium-Ion Batteries";
+        const char* pszTimestamp = "12-13-19 LinkedIn: 'Blockchain developer' is this fastest-growing U.S. job";
+        // std::vector<SnapshotProvider> providers = {
+        //     {"sman.pw", "/snapshot/mainnet.csv", 80}
+        // };
 
-        vSnapshot = InitSnapshot("mainnet.csv", providers);
-        genesis = CreateGenesisBlock(1570625829, 709, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
+        //vSnapshot = InitSnapshot("mainnet.csv", providers);
+        //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
+        genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp);
+        
 
+        
+        printf("block.nNonce = %u \n", genesis.nNonce);
+        printf("genesis.GetIndexHash() = %s \n", genesis.GetIndexHash().ToString().c_str());
+        printf("genesis.GetWorkHash() = %s\n", genesis.GetWorkHash().ToString().c_str());
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
+        GenesisGenerator(genesis);
 
-        assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x001cb6047ddf13074c4bce354ed3cf0cdd96a4287aa562b032eb81d03e183da8"));
-        assert(genesis.hashMerkleRoot == uint256S("0x3426ccad3017e14a4ab6efddaa44cb31beca67a86c82f63de18705f1b6de88df"));
+        printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
+        printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
+        assert(consensus.hashGenesisBlock == uint256S("0x1dc98d6e88d7ea29988358268e7082538448ef56d6f81fec33d673434d84274b"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0xe692f7aa707e34103f614a79a4b0868ec1a001f65491cbdc85437dbeb70bd268"));
+        assert(genesis.hashMerkleRoot == uint256S("0x74fbc0b2c63e00eea40caedfee9601a6da8f7d850150ae92e2efb8d20707ce14"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,26);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        bech32_hrp = "mbc";
+        bech32_hrp = "rmc";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
@@ -217,7 +231,9 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00");
+        //consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.nMinimumChainWork = consensus.powLimit;
+
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
@@ -236,20 +252,25 @@ public:
         nDefaultPort = 12502;
         nPruneAfterHeight = 1000;
 
-        const char* pszTimestamp = "The WSJ 05/Oct/2019 Hong Kong Shuts Down After Night of Violence";
+        const char* pszTimestamp = "12-13-19 LinkedIn: 'Blockchain developer' is this fastest-growing U.S. job";
         std::vector<SnapshotProvider> providers = {
             {"sman.pw", "/snapshot/testnet.csv", 80}
         };
 
-        vSnapshot = InitSnapshot("testnet.csv", providers);
-        genesis = CreateGenesisBlock(1568015489, 135893, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp, vSnapshot);
+        //vSnapshot = InitSnapshot("testnet.csv", providers);
+        //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
+        genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp); 524287999
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
 
-        assert(consensus.hashGenesisBlock == uint256S("0xf6968578ea5b34f3fcbdb55cdf75e4a7bd1534dd8dc65de09a250d808686f05f"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x002089a79759f268e63e8ffc3f90c601004b442e5191a0cf2874d1985aee6b0a"));
-        assert(genesis.hashMerkleRoot == uint256S("0x0fb9c5ab92544b3e5b3af90567a75dec488dc89087c70ead7b6eabedc032d8b0"));
+        printf("test consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        printf("test consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
+        printf("test genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+
+        assert(consensus.hashGenesisBlock == uint256S("0x1dc98d6e88d7ea29988358268e7082538448ef56d6f81fec33d673434d84274b"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0xe692f7aa707e34103f614a79a4b0868ec1a001f65491cbdc85437dbeb70bd268"));
+        assert(genesis.hashMerkleRoot == uint256S("0x74fbc0b2c63e00eea40caedfee9601a6da8f7d850150ae92e2efb8d20707ce14"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -260,7 +281,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        bech32_hrp = "tmbc";
+        bech32_hrp = "trmc";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
@@ -309,7 +330,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0x00");
+        //consensus.nMinimumChainWork = uint256S("0x00");
+        consensus.nMinimumChainWork = consensus.powLimit;
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
@@ -333,8 +355,8 @@ public:
             {"sman.pw", "/snapshot/regtest.csv", 80}
         };
 
-        vSnapshot = InitSnapshot("regtest.csv", providers);
-        genesis = CreateGenesisBlock(1296688602, 11, 0x207fffff, 1, 900 * COIN, pszTimestamp, vSnapshot);
+        //vSnapshot = InitSnapshot("regtest.csv", providers);
+        genesis = CreateGenesisBlock(1296688602, 11, 0x207fffff, 1, 900 * COIN, pszTimestamp);
         
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
@@ -368,7 +390,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "rmbc";
+        bech32_hrp = "rrmc";
 
         /* enable fallback fee on regtest */
         m_fallback_fee_enabled = true;
