@@ -171,9 +171,9 @@ public:
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0x1dc98d6e88d7ea29988358268e7082538448ef56d6f81fec33d673434d84274b"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0xe692f7aa707e34103f614a79a4b0868ec1a001f65491cbdc85437dbeb70bd268"));
-        assert(genesis.hashMerkleRoot == uint256S("0x74fbc0b2c63e00eea40caedfee9601a6da8f7d850150ae92e2efb8d20707ce14"));
+        assert(consensus.hashGenesisBlock == uint256S("0xcca903a8f53af427cf7a5ae85666652d0fc2d44c913717f24819492dedbb6a2d"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x1294ab37ed4987a85c2b27ec96304e5629d222abcabe4705160f93dfca84a1f5"));
+        assert(genesis.hashMerkleRoot == uint256S("0xfd312a68a9000f6009635d03a801f431d3d952d873b51246f37eee517b51200a"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
@@ -266,9 +266,10 @@ public:
         printf("test consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("test genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(consensus.hashGenesisBlock == uint256S("0x1dc98d6e88d7ea29988358268e7082538448ef56d6f81fec33d673434d84274b"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0xe692f7aa707e34103f614a79a4b0868ec1a001f65491cbdc85437dbeb70bd268"));
-        assert(genesis.hashMerkleRoot == uint256S("0x74fbc0b2c63e00eea40caedfee9601a6da8f7d850150ae92e2efb8d20707ce14"));
+        assert(consensus.hashGenesisBlock == uint256S("0xcca903a8f53af427cf7a5ae85666652d0fc2d44c913717f24819492dedbb6a2d"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x1294ab37ed4987a85c2b27ec96304e5629d222abcabe4705160f93dfca84a1f5"));
+        assert(genesis.hashMerkleRoot == uint256S("0xfd312a68a9000f6009635d03a801f431d3d952d873b51246f37eee517b51200a"));
+
 
         vFixedSeeds.clear();
         vSeeds.clear();
