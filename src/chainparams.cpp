@@ -160,8 +160,6 @@ public:
         //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
         genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp);
         
-
-        
         printf("block.nNonce = %u \n", genesis.nNonce);
         printf("genesis.GetIndexHash() = %s \n", genesis.GetIndexHash().ToString().c_str());
         printf("genesis.GetWorkHash() = %s\n", genesis.GetWorkHash().ToString().c_str());
@@ -259,7 +257,7 @@ public:
 
         //vSnapshot = InitSnapshot("testnet.csv", providers);
         //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
-        genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp); 524287999
+        genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
