@@ -171,9 +171,9 @@ public:
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0x1918500b88eb211c30bf3ae7a5faa51305bace111344ab696efbd619fe99eb38"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0xf037df43f5fa935cb2d982bc7de81cf77e9abf05d839a741770588d0402546c2"));
-        assert(genesis.hashMerkleRoot == uint256S("0x634c2897ab0decc26fce8dbedbdb5defd62837948de775499394cb862e91ec95"));
+        assert(consensus.hashGenesisBlock == uint256S("0x51e7a26674ddeda64456638b03f57c6147e90a413960b4ca3d32e48289ff439e"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x66207ca75350e88dfb77224cb333edadf6ab34381ea7fc4da9156cf9aa4e0173"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc92eb8fed82fbc59a66852b56554bc5389388e1cdbc97c71af4b88afd4249e67"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
@@ -250,7 +250,7 @@ public:
         nDefaultPort = 12502;
         nPruneAfterHeight = 1000;
 
-        const char* pszTimestamp = "12-13-19 LinkedIn: 'Blockchain developer' is this fastest-growing U.S. job";
+        const char* pszTimestamp = "12-13-18 LinkedIn: 'Blockchain developer' is the fastest-growing U.S. job";
         std::vector<SnapshotProvider> providers = {
             {"sman.pw", "/snapshot/testnet.csv", 80}
         };
@@ -266,11 +266,9 @@ public:
         printf("test consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("test genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(consensus.hashGenesisBlock == uint256S("0x2f5f3b67c05a4f87fa0777eb6077f0fce2a746c0c18ce3575a1dc71b149f76ce"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0xf037df43f5fa935cb2d982bc7de81cf77e9abf05d839a741770588d0402546c2"));
-        assert(genesis.hashMerkleRoot == uint256S("0x22e3887a07904c6319a4e81257f157b9ea39e044f9a7686358efaf4ad75d50e1"));
-
-
+        assert(consensus.hashGenesisBlock == uint256S("0x51e7a26674ddeda64456638b03f57c6147e90a413960b4ca3d32e48289ff439e"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x66207ca75350e88dfb77224cb333edadf6ab34381ea7fc4da9156cf9aa4e0173"));
+        assert(genesis.hashMerkleRoot == uint256S("0xc92eb8fed82fbc59a66852b56554bc5389388e1cdbc97c71af4b88afd4249e67"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
