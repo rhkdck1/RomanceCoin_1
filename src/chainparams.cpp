@@ -257,7 +257,7 @@ public:
 
         //vSnapshot = InitSnapshot("testnet.csv", providers);
         //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
-        genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp);
+        genesis = CreateGenesisBlock(1576483085, 1139631728, 0x207fffff, 1, 50 * COIN, pszTimestamp);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
