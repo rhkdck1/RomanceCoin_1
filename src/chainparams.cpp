@@ -125,8 +125,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        //consensus.nMinimumChainWork = uint256S("0x00");
-        consensus.nMinimumChainWork = consensus.powLimit;
+        consensus.nMinimumChainWork = uint256S("0x00");
+        //consensus.nMinimumChainWork = consensus.powLimit;
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
@@ -158,7 +158,7 @@ public:
 
         //vSnapshot = InitSnapshot("mainnet.csv", providers);
         //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
-        genesis = CreateGenesisBlock(1576211672, 0x00000000, 545259519, 1, 1000000 * COIN, pszTimestamp);
+        genesis = CreateGenesisBlock(1576483085, 1139631728, 0x207fffff, 1, 50 * COIN, pszTimestamp);
         
         printf("block.nNonce = %u \n", genesis.nNonce);
         printf("genesis.GetIndexHash() = %s \n", genesis.GetIndexHash().ToString().c_str());
@@ -171,9 +171,9 @@ public:
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0xcca903a8f53af427cf7a5ae85666652d0fc2d44c913717f24819492dedbb6a2d"));
+        assert(consensus.hashGenesisBlock == uint256S("0x000000006b387a60f06ffdf6dd5724e24b970df60775c2c42fc898868811f2d1"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x1294ab37ed4987a85c2b27ec96304e5629d222abcabe4705160f93dfca84a1f5"));
-        assert(genesis.hashMerkleRoot == uint256S("0xfd312a68a9000f6009635d03a801f431d3d952d873b51246f37eee517b51200a"));
+        assert(genesis.hashMerkleRoot == uint256S("0x0d1093709f96cd702036f506b09c3fbd18eb25cf57850dc25e2b5731604c2712"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
@@ -229,8 +229,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        //consensus.nMinimumChainWork = uint256S("0x00");
-        consensus.nMinimumChainWork = consensus.powLimit;
+        consensus.nMinimumChainWork = uint256S("0x00");
+        //consensus.nMinimumChainWork = consensus.powLimit;
 
 
         // By default assume that the signatures in ancestors of this block are valid.
@@ -266,9 +266,9 @@ public:
         printf("test consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("test genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(consensus.hashGenesisBlock == uint256S("0xcca903a8f53af427cf7a5ae85666652d0fc2d44c913717f24819492dedbb6a2d"));
+        assert(consensus.hashGenesisBlock == uint256S("0x000000006b387a60f06ffdf6dd5724e24b970df60775c2c42fc898868811f2d1"));
         assert(consensus.hashGenesisBlockWork == uint256S("0x1294ab37ed4987a85c2b27ec96304e5629d222abcabe4705160f93dfca84a1f5"));
-        assert(genesis.hashMerkleRoot == uint256S("0xfd312a68a9000f6009635d03a801f431d3d952d873b51246f37eee517b51200a"));
+        assert(genesis.hashMerkleRoot == uint256S("0x0d1093709f96cd702036f506b09c3fbd18eb25cf57850dc25e2b5731604c2712"));
 
 
         vFixedSeeds.clear();
