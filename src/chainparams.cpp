@@ -158,7 +158,7 @@ public:
 
         //vSnapshot = InitSnapshot("mainnet.csv", providers);
         //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
-        genesis = CreateGenesisBlock(1576483085, 1139631728, 0x207fffff, 1, 50 * COIN, pszTimestamp);
+        genesis = CreateGenesisBlock(1576483085, 0x00000001, 545259519, 1, 1000000 * COIN, pszTimestamp);
         
         printf("block.nNonce = %u \n", genesis.nNonce);
         printf("genesis.GetIndexHash() = %s \n", genesis.GetIndexHash().ToString().c_str());
@@ -171,9 +171,9 @@ public:
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
         //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0x8ac7c879108003b45320732e652fdb3bdfa84dd97aab412e599332dadae4c719"));
+        assert(consensus.hashGenesisBlock == uint256S("0x2f5f3b67c05a4f87fa0777eb6077f0fce2a746c0c18ce3575a1dc71b149f76ce"));
         assert(consensus.hashGenesisBlockWork == uint256S("0xf037df43f5fa935cb2d982bc7de81cf77e9abf05d839a741770588d0402546c2"));
-        assert(genesis.hashMerkleRoot == uint256S("0xcd429ac241790dc0de88c56aac5837f2dcda2aeca25371ab580fd9d541971287"));
+        assert(genesis.hashMerkleRoot == uint256S("0x22e3887a07904c6319a4e81257f157b9ea39e044f9a7686358efaf4ad75d50e1"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
@@ -257,7 +257,7 @@ public:
 
         //vSnapshot = InitSnapshot("testnet.csv", providers);
         //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
-        genesis = CreateGenesisBlock(1576483085, 1139631728, 0x207fffff, 1, 50 * COIN, pszTimestamp);
+        genesis = CreateGenesisBlock(1576483085, 0x00000001, 545259519, 1, 1000000 * COIN, pszTimestamp);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
@@ -266,9 +266,9 @@ public:
         printf("test consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("test genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(consensus.hashGenesisBlock == uint256S("0x8ac7c879108003b45320732e652fdb3bdfa84dd97aab412e599332dadae4c719"));
+        assert(consensus.hashGenesisBlock == uint256S("0x2f5f3b67c05a4f87fa0777eb6077f0fce2a746c0c18ce3575a1dc71b149f76ce"));
         assert(consensus.hashGenesisBlockWork == uint256S("0xf037df43f5fa935cb2d982bc7de81cf77e9abf05d839a741770588d0402546c2"));
-        assert(genesis.hashMerkleRoot == uint256S("0xcd429ac241790dc0de88c56aac5837f2dcda2aeca25371ab580fd9d541971287"));
+        assert(genesis.hashMerkleRoot == uint256S("0x22e3887a07904c6319a4e81257f157b9ea39e044f9a7686358efaf4ad75d50e1"));
 
 
 
