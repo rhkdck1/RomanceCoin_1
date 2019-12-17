@@ -1164,8 +1164,11 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     }
 
     // Check the header
-    if (!CheckProofOfWork(block.GetWorkHashCached(), block.nBits, consensusParams)) {
-        return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
+    if(block.GetIndexHash() != consensusParams.hashGenesisBlock)
+    {
+        if (!CheckProofOfWork(block.GetWorkHashCached(), block.nBits, consensusParams)) {
+            return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
+        }
     }
 
     return true;
@@ -3295,6 +3298,8 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
 
     // Check that the header is valid (particularly PoW).  This is mostly
     // redundant with the call in AcceptBlockHeader.
+    if(block.GetIndexHash() != consensusParams.hashGenesisBlock)
+        fCheckPOW = false;
     if (!CheckBlockHeader(block, state, consensusParams, fCheckPOW))
         return false;
 

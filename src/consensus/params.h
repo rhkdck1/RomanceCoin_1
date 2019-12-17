@@ -47,7 +47,7 @@ struct BIP9Deployment {
  */
 struct Params {
     uint256 hashGenesisBlock;
-    //uint256 hashGenesisBlockWork;
+    uint256 hashGenesisBlockWork;
     bool nBIP34Enabled;
     bool nBIP65Enabled;
     bool nBIP66Enabled;
