@@ -938,6 +938,7 @@ static UniValue estimaterawfee(const JSONRPCRequest& request)
 
 static UniValue setgenerate(const JSONRPCRequest& request)
 {
+     printf("여기 타나");
     if (request.fHelp || request.params.size() < 1 || request.params.size() > 4)
         throw std::runtime_error(
                 "setgenerate generate ( genproclimit )\n"
