@@ -1244,23 +1244,44 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 
 bool IsInitialBlockDownload()
 {
+    return false;
     // Once this function has returned false, it must remain false.
     static std::atomic<bool> latchToFalse{false};
     // Optimization: pre-test latch before taking the lock.
     if (latchToFalse.load(std::memory_order_relaxed))
+    {
+        LogPrintf("latchToFalse.load(std::memory_order_relaxed)  \n");
         return false;
+    }
 
     LOCK(cs_main);
     if (latchToFalse.load(std::memory_order_relaxed))
         return false;
     if (fImporting || fReindex)
+    {
+        LogPrintf("fImporting = %s, fReindex = %s\n", fImporting, fReindex);
         return true;
+    }
+        
     if (chainActive.Tip() == nullptr)
+    {
+        LogPrintf("chainActive.Tip()\n");
         return true;
+    }
     if (chainActive.Tip()->nChainWork < nMinimumChainWork)
+    {
+        LogPrintf("chainActive.Tip()->nChainWork < nMinimumChainWork\n");
+        LogPrintf("nMinimumChainWork = %s \n", nMinimumChainWork.ToString());
+        LogPrintf("chainActive.Tip()->nChainWork = %s \n", chainActive.Tip()->nChainWork.ToString());
         return true;
+    }
     if (chainActive.Tip()->GetBlockTime() < (GetTime() - nMaxTipAge))
+    {
+        LogPrintf("chainActive.Tip()->GetBlockTime() < (GetTime() - nMaxTipAge)\n");
+        LogPrintf("chainActive.Tip()->GetBlockTime() = %d\n", chainActive.Tip()->GetBlockTime());
+        LogPrintf("(GetTime() - nMaxTipAge) = %d\n", (GetTime() - nMaxTipAge));
         return true;
+    }
     LogPrintf("Leaving InitialBlockDownload (latching to false)\n");
     latchToFalse.store(true, std::memory_order_relaxed);
     return false;

@@ -938,7 +938,8 @@ static UniValue estimaterawfee(const JSONRPCRequest& request)
 
 static UniValue setgenerate(const JSONRPCRequest& request)
 {
-     printf("여기 타나");
+    printf("여기 타나\n");
+    printf("request.params[0] : %s \n", request.params[0]);
     if (request.fHelp || request.params.size() < 1 || request.params.size() > 4)
         throw std::runtime_error(
                 "setgenerate generate ( genproclimit )\n"
@@ -964,20 +965,18 @@ static UniValue setgenerate(const JSONRPCRequest& request)
 
     bool fGenerate = true;
     if (!request.params[0].isNull()) {
-        printf("!request.params[0].isNull())");
         fGenerate = request.params[0].get_bool();
     }
 
     int nGenProcLimit = 1;
     if (!request.params[1].isNull()) {
-        printf("!request.params[1].isNull())");
         nGenProcLimit = request.params[1].get_int();
         if (nGenProcLimit == 0)
             fGenerate = false;
     }
 
-    printf("fGenerate = %d", fGenerate);
-    printf("nGenProcLimit = %d", nGenProcLimit);
+    printf("fGenerate = %d \n", fGenerate);
+    printf("nGenProcLimit = %d \n", nGenProcLimit);
     GenerateSolo(fGenerate, nGenProcLimit, Params(), *g_connman);
 
     return fGenerate ? std::string("Mining started") : std::string("Mining stopped");

@@ -51,11 +51,13 @@ void GenesisGenerator(CBlock genesis) {
 
 static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesisOutputScript, uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
+    //486604799 
+    //545259519
     CMutableTransaction txNew;
     txNew.nVersion = 1;
     txNew.vin.resize(1);
     txNew.vout.resize(1);
-    txNew.vin[0].scriptSig = CScript() << 545259519 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
+    txNew.vin[0].scriptSig = CScript() << 486604799  << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
     txNew.vout[0].nValue = genesisReward;
     txNew.vout[0].scriptPubKey = genesisOutputScript;
 
@@ -114,7 +116,7 @@ public:
         consensus.nBIP66Enabled = true;
         consensus.nSegwitEnabled = true;
         consensus.nCSVEnabled = true;
-        consensus.powLimit = uint256S("00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.powLimit = uint256S("003fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetSpacing = 1 * 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
@@ -125,8 +127,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        //consensus.nMinimumChainWork = uint256S("0x00");
-        consensus.nMinimumChainWork = consensus.powLimit;
+        consensus.nMinimumChainWork = uint256S("0x00");
+        //consensus.nMinimumChainWork = consensus.powLimit;
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
@@ -158,7 +160,8 @@ public:
 
         //vSnapshot = InitSnapshot("mainnet.csv", providers);
         //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
-        genesis = CreateGenesisBlock(1544904235, 0x00000006, 545259519, 1, 1000000 * COIN, pszTimestamp);
+        //genesis = CreateGenesisBlock(1544904235, 0x00000006, 545259519, 1, 1000000 * COIN, pszTimestamp);
+        genesis = CreateGenesisBlock(1544904235, 0x00000006, 0x1f3fffff, 1, 1000000 * COIN, pszTimestamp);
         
         printf("block.nNonce = %u \n", genesis.nNonce);
         printf("genesis.GetIndexHash() = %s \n", genesis.GetIndexHash().ToString().c_str());
@@ -170,12 +173,20 @@ public:
         printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
         printf("consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        //assert(consensus.hashGenesisBlock == uint256S("0x14c03ecf20edc9887fb98bf34b53809f063fc491e73f588961f764fac88ecbae"));
-        assert(consensus.hashGenesisBlock == uint256S("0x51e7a26674ddeda64456638b03f57c6147e90a413960b4ca3d32e48289ff439e"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x66207ca75350e88dfb77224cb333edadf6ab34381ea7fc4da9156cf9aa4e0173"));
-        assert(genesis.hashMerkleRoot == uint256S("0xc92eb8fed82fbc59a66852b56554bc5389388e1cdbc97c71af4b88afd4249e67"));
+        // assert(consensus.hashGenesisBlock == uint256S("0x51e7a26674ddeda64456638b03f57c6147e90a413960b4ca3d32e48289ff439e"));
+        // assert(consensus.hashGenesisBlockWork == uint256S("0x66207ca75350e88dfb77224cb333edadf6ab34381ea7fc4da9156cf9aa4e0173"));
+        // assert(genesis.hashMerkleRoot == uint256S("0xc92eb8fed82fbc59a66852b56554bc5389388e1cdbc97c71af4b88afd4249e67"));
+        assert(consensus.hashGenesisBlock == uint256S("0xb03a108e38a13966b9d21c8be97ff1777fc5239aef6c5c680426ad3e527058d8"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x29de1cf6544967f3b594eeb3c073d7bc9b89503fdbabb41b4ef769d12541ab27"));
+        assert(genesis.hashMerkleRoot == uint256S("0xb809a05c95f263aa3aa5144184e19cbb473ee7ce7dd43d665f578376c6b06c81"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
+        // base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);
+        // base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,50);
+        // base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,176);
+        // base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
+        // base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
+        
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,26);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,51);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
@@ -257,7 +268,8 @@ public:
 
         //vSnapshot = InitSnapshot("testnet.csv", providers);
         //genesis = CreateGenesisBlock(1574659287, 2152894672, 0x1f3fffff, 1, consensus.baseReward, pszTimestamp);
-        genesis = CreateGenesisBlock(1544904235, 0x00000006, 545259519, 1, 1000000 * COIN, pszTimestamp);
+        //genesis = CreateGenesisBlock(1544904235, 0x00000006, 545259519, 1, 1000000 * COIN, pszTimestamp);
+         genesis = CreateGenesisBlock(1544904235, 0x00000006, 0x1f3fffff, 1, 1000000 * COIN, pszTimestamp);
 
         consensus.hashGenesisBlock = genesis.GetIndexHash();
         consensus.hashGenesisBlockWork = genesis.GetWorkHash();
@@ -266,15 +278,15 @@ public:
         printf("test consensus.hashGenesisBlockWork = %s\n", consensus.hashGenesisBlockWork.ToString().c_str());
         printf("test genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
 
-        assert(consensus.hashGenesisBlock == uint256S("0x51e7a26674ddeda64456638b03f57c6147e90a413960b4ca3d32e48289ff439e"));
-        assert(consensus.hashGenesisBlockWork == uint256S("0x66207ca75350e88dfb77224cb333edadf6ab34381ea7fc4da9156cf9aa4e0173"));
-        assert(genesis.hashMerkleRoot == uint256S("0xc92eb8fed82fbc59a66852b56554bc5389388e1cdbc97c71af4b88afd4249e67"));
+        assert(consensus.hashGenesisBlock == uint256S("0xb03a108e38a13966b9d21c8be97ff1777fc5239aef6c5c680426ad3e527058d8"));
+        assert(consensus.hashGenesisBlockWork == uint256S("0x29de1cf6544967f3b594eeb3c073d7bc9b89503fdbabb41b4ef769d12541ab27"));
+        assert(genesis.hashMerkleRoot == uint256S("0xb809a05c95f263aa3aa5144184e19cbb473ee7ce7dd43d665f578376c6b06c81"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,71);
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,73);
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,90);
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};

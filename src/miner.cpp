@@ -482,6 +482,7 @@ void static SoloMiner(const CChainParams& chainparams, CConnman& connman)
 
     std::vector<std::shared_ptr<CWallet>> wallets = GetWallets();
     CWallet * const pwallet = (wallets.size() > 0) ? wallets[0].get() : nullptr;
+    printf("wallets : %d \n", wallets.size());
 
     if (!pwallet)
         return;
@@ -489,29 +490,42 @@ void static SoloMiner(const CChainParams& chainparams, CConnman& connman)
     unsigned int nExtraNonce = 0;
     std::shared_ptr<CReserveScript> coinbaseScript;
     pwallet->GetScriptForMining(coinbaseScript);
+    LogPrintf("여긴 오긴 오냐?!0000000000000000000\n");
 
     while (true)
     {
+        LogPrintf("여긴 오긴 오냐?!1111111111111111111111\n");
         try {
-
+            LogPrintf("여긴 오긴 오냐?!11111111111122222222222222222\n");
             MilliSleep(1000);
 
             // Throw an error if no script was provided.  This can happen
             // due to some internal error but also if the keypool is empty.
             // In the latter case, already the pointer is NULL.
             if (!coinbaseScript || coinbaseScript->reserveScript.empty())
+            {
+                LogPrintf("여긴 오긴 오냐?!111111111111111111111333333333333\n");
                 throw std::runtime_error("No coinbase script available (mining requires a wallet)");
-
+            }
+                
             do {
+                LogPrintf("여긴 뭐하는데야???\n");
                 bool fvNodesEmpty = connman.GetNodeCount(CConnman::CONNECTIONS_ALL) == 0;
+                LogPrintf("fvNodesEmpty = %s \n", fvNodesEmpty);
+                bool isInitBlockDownload = IsInitialBlockDownload();
+                LogPrintf("isInitBlockDownload = %s \n", isInitBlockDownload);
                 if (!fvNodesEmpty && !IsInitialBlockDownload())
+                {
+                    LogPrintf("여기 와야되는거구나?!\n");
                     break;
+                }
                 MilliSleep(1000);
             } while (true);
 
             //
             // Create new block
             //
+            LogPrintf("여긴 오긴 오냐?!222222222222222222\n");
             unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
             CBlockIndex* pindexPrev = chainActive.Tip();
             if(!pindexPrev) break;
@@ -525,6 +539,7 @@ void static SoloMiner(const CChainParams& chainparams, CConnman& connman)
                       ::GetSerializeSize(*pblock, PROTOCOL_VERSION));
 
             // check if block is valid
+            LogPrintf("여긴 오긴 오냐?!3333333333333333333\n");
             CValidationState state;
             if (!TestBlockValidity(state, chainparams, *pblock, pindexPrev, false, false)) {
                 throw std::runtime_error(strprintf("%s: TestBlockValidity failed: %s", __func__, FormatStateMessage(state)));
@@ -535,16 +550,23 @@ void static SoloMiner(const CChainParams& chainparams, CConnman& connman)
             //
             int64_t nStart = GetTime();
             arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
+            //std::string strnBits;
+            //strnBits = to_string(pblock->nBits);
+            LogPrintf("pblock->nBits : %u \n", pblock->nBits);
             while (true)
             {
                 unsigned int nHashesDone = 0;
+                LogPrintf("hashTarget : %s \n", hashTarget.ToString());
 
                 uint256 hash;
                 while (true)
                 {
+                    //LogPrintf("여긴 오긴 오냐?!\n");
                     hash = pblock->GetWorkHash();
+                    LogPrintf("hash : %s \n", hash.GetHex());
                     if (UintToArith256(hash) <= hashTarget)
                     {
+                        LogPrintf("채굴 완료!!!");
                         // Found a solution
                         SetThreadPriority(THREAD_PRIORITY_NORMAL);
                         LogPrintf("SoloMiner:\n  proof-of-work found\n  hash: %s\n  target: %s\n", hash.GetHex(), hashTarget.GetHex());
@@ -562,7 +584,10 @@ void static SoloMiner(const CChainParams& chainparams, CConnman& connman)
                     pblock->nNonce += 1;
                     nHashesDone += 1;
                     if ((pblock->nNonce & 0xFF) == 0)
+                    {
+                        LogPrintf("(pblock->nNonce & 0xFF) == 0 : %d \n", pblock->nNonce);
                         break;
+                    }
                 }
 
                 // Check for stop or if block needs to be rebuilt
